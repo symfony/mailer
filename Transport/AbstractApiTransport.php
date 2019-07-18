@@ -9,12 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Component\Mailer\Transport\Http\Api;
+namespace Symfony\Component\Mailer\Transport;
 
 use Symfony\Component\Mailer\Exception\RuntimeException;
 use Symfony\Component\Mailer\SentMessage;
 use Symfony\Component\Mailer\SmtpEnvelope;
-use Symfony\Component\Mailer\Transport\Http\AbstractHttpTransport;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Mime\MessageConverter;
