@@ -75,5 +75,7 @@ abstract class AbstractHttpTransport extends AbstractTransport
 
             throw $e;
         }
+        
+        return $response;
     }
 }
