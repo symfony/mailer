@@ -13,6 +13,7 @@ namespace Symfony\Component\Mailer\Tests\Transport;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\Exception\TransportException;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Transport\RoundRobinTransport;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\RawMessage;
@@ -60,10 +61,21 @@ class RoundRobinTransportTest extends TestCase
         $t2 = $this->createMock(TransportInterface::class);
         $t2->expects($this->once())->method('send')->will($this->throwException(new TransportException()));
         $t = new RoundRobinTransport([$t1, $t2]);
-        $this->expectException(TransportException::class);
-        $this->expectExceptionMessage('All transports failed.');
-        $t->send(new RawMessage(''));
-        $this->assertTransports($t, 1, [$t1, $t2]);
+        $p = new \ReflectionProperty($t, 'cursor');
+        $p->setValue($t, 0);
+
+        try {
+            $t->send(new RawMessage(''));
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(TransportException::class, $e);
+            $this->assertStringContainsString('All transports failed.', $e->getMessage());
+            $this->assertTransports($t, 0, [$t1, $t2]);
+
+            return;
+        }
+
+        $this->fail('The expected exception was not thrown.');
+
     }
 
     public function testSendOneDead()
