@@ -48,15 +48,18 @@ class RoundRobinTransport implements TransportInterface
 
     public function send(RawMessage $message, Envelope $envelope = null): ?SentMessage
     {
+        $exception = new TransportException('All transports failed.');
+
         while ($transport = $this->getNextTransport()) {
             try {
                 return $transport->send($message, $envelope);
-            } catch (TransportExceptionInterface) {
+            } catch (TransportExceptionInterface $e) {
+                $exception->appendDebug($this->formatException($transport, $e));
                 $this->deadTransports[$transport] = microtime(true);
             }
         }
 
-        throw new TransportException('All transports failed.');
+        throw $exception;
     }
 
     public function __toString(): string
@@ -117,5 +120,10 @@ class RoundRobinTransport implements TransportInterface
     private function moveCursor(int $cursor): int
     {
         return ++$cursor >= \count($this->transports) ? 0 : $cursor;
+    }
+
+    private function formatException(TransportInterface $transport, TransportExceptionInterface $exception): string
+    {
+        return sprintf('Transport %s: %s', $transport->__toString(), $exception->getDebug());
     }
 }

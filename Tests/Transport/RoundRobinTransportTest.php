@@ -136,6 +136,30 @@ class RoundRobinTransportTest extends TestCase
         $this->assertTransports($t, 1, []);
     }
 
+    public function testFailureDebugInformation()
+    {
+        $t1 = $this->createMock(TransportInterface::class);
+        $e1 = new TransportException();
+        $e1->appendDebug('Debug message 1');
+        $t1->expects($this->once())->method('send')->will($this->throwException($e1));
+        $t2 = $this->createMock(TransportInterface::class);
+        $e2 = new TransportException();
+        $e2->appendDebug('Debug message 2');
+        $t2->expects($this->once())->method('send')->will($this->throwException($e2));
+        $t = new RoundRobinTransport([$t1, $t2]);
+
+        try {
+            $t->send(new RawMessage(''));
+        } catch (TransportExceptionInterface $e) {
+            $this->assertStringContainsString($e1->getDebug(), $e->getDebug());
+            $this->assertStringContainsString($e2->getDebug(), $e->getDebug());
+
+            return;
+        }
+
+        $this->fail('Expected exception was not thrown!');
+    }
+
     private function assertTransports(RoundRobinTransport $transport, int $cursor, array $deadTransports)
     {
         $p = new \ReflectionProperty($transport, 'cursor');
