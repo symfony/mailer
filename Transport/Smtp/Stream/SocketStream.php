@@ -28,6 +28,7 @@ final class SocketStream extends AbstractStream
     private int $port = 465;
     private float $timeout;
     private bool $tls = true;
+    private bool $startTLS = true;
     private ?string $sourceIp = null;
     private array $streamContextOptions = [];
 
@@ -89,10 +90,27 @@ final class SocketStream extends AbstractStream
 
         return $this;
     }
+    
+    /**
+     * Explicitly sets STARTTLS on the stream
+     *
+     * @return $this
+     */
+    public function disableStartTLS(): static
+    {
+        $this->startTLS = false;
+        
+        return $this;
+    }
 
     public function isTLS(): bool
     {
         return $this->tls;
+    }
+    
+    public function isStartTLS(): bool 
+    {
+        return $this->startTLS;
     }
 
     /**
