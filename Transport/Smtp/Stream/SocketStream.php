@@ -198,6 +198,10 @@ final class SocketStream extends AbstractStream
 
     protected function getTimeoutMicroseconds(): int
     {
-        return (int) (($this->getTimeout() - $this->getTimeoutSeconds()) * 1000000);
+        return (int) (
+            (
+                (int) $this->getTimeout() - $this->getTimeoutSeconds()
+            ) * 1000000
+        );
     }
 }
