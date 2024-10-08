@@ -7,6 +7,7 @@ CHANGELOG
  * Add DSN param `retry_period` to override default email transport retry period
  * Add `Dsn::getBooleanOption()`
  * Add DSN param `source_ip` to allow binding to a (specific) IPv4 or IPv6 address.
+ * Add `DkimSignedMessageListener`, `SmimeEncryptedMessageListener`, and `SmimeSignedMessageListener`
 
 7.2
 ---
