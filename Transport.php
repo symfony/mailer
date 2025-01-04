@@ -107,8 +107,7 @@ final class Transport
     public function fromString(#[\SensitiveParameter] string $dsn): TransportInterface
     {
         [$transport, $offset] = $this->parseDsn($dsn);
-        $dnsWithoutMainOptions = preg_replace('/[?&]retry_period=\d+/', '', $dsn);
-        if ($offset !== \strlen($dnsWithoutMainOptions)) {
+        if ($offset !== \strlen($dsn)) {
             throw new InvalidArgumentException('The mailer DSN has some garbage at the end.');
         }
 
@@ -121,10 +120,6 @@ final class Transport
             'failover' => FailoverTransport::class,
             'roundrobin' => RoundRobinTransport::class,
         ];
-
-        $parsedUrl = parse_url($dsn);
-        parse_str($parsedUrl['query'] ?? '', $query);
-        $retryPeriod = min((int) ($query['retry_period'] ?? 60), 60);
 
         while (true) {
             foreach ($keywords as $name => $class) {
@@ -150,7 +145,12 @@ final class Transport
                         }
                     }
 
-                    return [new $class($args, $retryPeriod), $offset];
+                    parse_str(substr($dsn, $offset + 1), $query);
+                    if ($period = $query['retry_period'] ?? 0) {
+                        return [new $class($args, (int) $period), $offset + \strlen('retry_period='.$period) + 1];
+                    }
+
+                    return [new $class($args), $offset];
                 }
             }
 
