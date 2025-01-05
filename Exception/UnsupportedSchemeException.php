@@ -22,7 +22,7 @@ class UnsupportedSchemeException extends LogicException
     private const SCHEME_TO_PACKAGE_MAP = [
         'ahasend' => [
             'class' => Bridge\AhaSend\Transport\AhaSendTransportFactory::class,
-            'package' => 'symfony/ahasend-mailer',
+            'package' => 'symfony/aha-send-mailer',
         ],
         'azure' => [
             'class' => Bridge\Azure\Transport\AzureTransportFactory::class,

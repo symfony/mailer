@@ -81,7 +81,7 @@ final class UnsupportedSchemeExceptionTest extends TestCase
 
     public static function messageWhereSchemeIsPartOfSchemeToPackageMapProvider(): \Generator
     {
-        yield ['ahasend', 'symfony/ahasend-mailer'];
+        yield ['ahasend', 'symfony/aha-send-mailer'];
         yield ['azure', 'symfony/azure-mailer'];
         yield ['brevo', 'symfony/brevo-mailer'];
         yield ['gmail', 'symfony/google-mailer'];
