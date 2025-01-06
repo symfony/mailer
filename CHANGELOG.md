@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+7.3
+---
+
+ * Add DSN param `retry_period` to override default email transport retry period
+
 7.2
 ---
 
