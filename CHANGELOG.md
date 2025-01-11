@@ -5,6 +5,7 @@ CHANGELOG
 ---
 
  * Add DSN param `retry_period` to override default email transport retry period
+ * Add `Dsn::getBooleanOption()`
 
 7.2
 ---
