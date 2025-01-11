@@ -38,6 +38,9 @@ final class EsmtpTransportFactory extends AbstractTransportFactory
 
         /** @var SocketStream $stream */
         $stream = $transport->getStream();
+        if ('' !== $sourceIp = $dsn->getOption('source_ip', '')) {
+            $stream->setSourceIp($sourceIp);
+        }
         $streamOptions = $stream->getStreamOptions();
 
         if ('' !== $dsn->getOption('verify_peer') && !filter_var($dsn->getOption('verify_peer', true), \FILTER_VALIDATE_BOOL)) {

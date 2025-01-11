@@ -180,6 +180,20 @@ class EsmtpTransportFactoryTest extends AbstractTransportFactoryTestCase
             Dsn::fromString('smtp://:@example.com:465?auto_tls=false'),
             $transport,
         ];
+
+        $transport = new EsmtpTransport('example.com', 465, true, null, $logger);
+        $transport->getStream()->setSourceIp('0.0.0.0');
+        yield [
+            Dsn::fromString('smtps://:@example.com:465?source_ip=0.0.0.0'),
+            $transport,
+        ];
+
+        $transport = new EsmtpTransport('example.com', 465, true, null, $logger);
+        $transport->getStream()->setSourceIp('[2606:4700:20::681a:5fb]');
+        yield [
+            Dsn::fromString('smtps://:@example.com:465?source_ip=[2606:4700:20::681a:5fb]'),
+            $transport,
+        ];
     }
 
     public static function unsupportedSchemeProvider(): iterable
