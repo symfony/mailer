@@ -194,6 +194,18 @@ class EsmtpTransportFactoryTest extends AbstractTransportFactoryTestCase
             Dsn::fromString('smtps://:@example.com:465?source_ip=[2606:4700:20::681a:5fb]'),
             $transport,
         ];
+
+        $transport = new EsmtpTransport('example.com', 465, true, null, $logger);
+        $transport->setRequireTls(true);
+
+        yield [
+            new Dsn('smtps', 'example.com', '', '', 465, ['require_tls' => true]),
+            $transport,
+        ];
+        yield [
+            Dsn::fromString('smtps://:@example.com?require_tls=true'),
+            $transport,
+        ];
     }
 
     public static function unsupportedSchemeProvider(): iterable
