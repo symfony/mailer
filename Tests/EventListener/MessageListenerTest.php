@@ -120,10 +120,6 @@ class MessageListenerTest extends TestCase
 
     public function testTranslatableSubject()
     {
-        if (!method_exists(TemplatedEmail::class, 'getTranslatableSubject')) {
-            $this->markTestSkipped('symfony/twig-bridge 7.3 or higher required');
-        }
-
         $message = new TemplatedEmail();
         $message->subject(new TranslatableMessage('hello.world'));
         $listener = new MessageListener(translator: new class implements TranslatorInterface {

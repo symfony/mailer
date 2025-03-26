@@ -122,7 +122,7 @@ class MessageListener implements EventSubscriberInterface
 
     private function translateSubject(Message $message): void
     {
-        if (!$message instanceof TemplatedEmail || !$this->translator || !method_exists(TemplatedEmail::class, 'getTranslatableSubject') || !$message->getTranslatableSubject() instanceof TranslatableMessage) {
+        if (!$message instanceof TemplatedEmail || !$this->translator || !$message->getTranslatableSubject() instanceof TranslatableMessage) {
             return;
         }
 
