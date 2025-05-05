@@ -16,6 +16,8 @@ use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Transport\RoundRobinTransport;
 use Symfony\Component\Mailer\Transport\TransportInterface;
+use Symfony\Component\Mime\Header\Headers;
+use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\RawMessage;
 
 /**
@@ -141,6 +143,27 @@ class RoundRobinTransportTest extends TestCase
         $this->assertTransports($t, 0, []);
         $t->send(new RawMessage(''));
         $this->assertTransports($t, 1, []);
+    }
+
+    public function testSendOneDeadMessageAlterationsDoNotPersist()
+    {
+        $t1 = $this->createMock(TransportInterface::class);
+        $t1->expects($this->once())->method('send')
+            ->willReturnCallback(function (Message $message) {
+                $message->getHeaders()->addTextHeader('X-Transport-1', 'value');
+                throw new TransportException();
+            });
+        $t2 = $this->createMock(TransportInterface::class);
+        $t2->expects($this->once())->method('send');
+        $t = new RoundRobinTransport([$t1, $t2]);
+        $p = new \ReflectionProperty($t, 'cursor');
+        $p->setValue($t, 0);
+        $headers = new Headers();
+        $headers->addTextHeader('X-Shared', 'value');
+        $message = new Message($headers);
+        $t->send($message);
+        $this->assertSame($message->getHeaders()->get('X-Shared')->getBody(), 'value');
+        $this->assertFalse($message->getHeaders()->has('X-Transport-1'));
     }
 
     public function testFailureDebugInformation()
