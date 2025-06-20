@@ -50,7 +50,7 @@ class RoundRobinTransport implements TransportInterface
 
         while ($transport = $this->getNextTransport()) {
             try {
-                return $transport->send($message, $envelope);
+                return $transport->send(clone $message, $envelope);
             } catch (TransportExceptionInterface $e) {
                 $exception ??= new TransportException('All transports failed.');
                 $exception->appendDebug(\sprintf("Transport \"%s\": %s\n", $transport, $e->getDebug()));
