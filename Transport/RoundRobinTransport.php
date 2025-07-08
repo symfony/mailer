@@ -57,7 +57,7 @@ class RoundRobinTransport implements TransportInterface
             } catch (TransportExceptionInterface $e) {
                 $exception ??= new TransportException('All transports failed.');
                 $exception->appendDebug(\sprintf("Transport \"%s\": %s\n", $transport, $e->getDebug()));
-                $this->logger->error(\sprintf("Transport \"%s\" failed.", $transport), ['exception' => $e]);
+                $this->logger->error(\sprintf('Transport "%s" failed.', $transport), ['exception' => $e]);
                 $this->deadTransports[$transport] = microtime(true);
             }
         }
