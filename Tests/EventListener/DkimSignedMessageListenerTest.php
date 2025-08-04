@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Mailer\Tests\EventListener;
 
+use PHPUnit\Framework\Attributes\RequiresPhpExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Event\MessageEvent;
@@ -24,9 +25,7 @@ use Symfony\Component\Mime\Part\TextPart;
 
 class DkimSignedMessageListenerTest extends TestCase
 {
-    /**
-     * @requires extension openssl
-     */
+    #[RequiresPhpExtension('openssl')]
     public function testDkimMessageSigningProcess()
     {
         $signer = new DkimSigner(<<<KEY

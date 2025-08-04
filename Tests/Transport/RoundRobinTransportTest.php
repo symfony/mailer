@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Mailer\Tests\Transport;
 
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\TransportException;
@@ -21,9 +22,7 @@ use Symfony\Component\Mime\Header\Headers;
 use Symfony\Component\Mime\Message;
 use Symfony\Component\Mime\RawMessage;
 
-/**
- * @group time-sensitive
- */
+#[Group('time-sensitive')]
 class RoundRobinTransportTest extends TestCase
 {
     public function testSendNoTransports()
