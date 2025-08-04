@@ -40,6 +40,9 @@ abstract class AbstractTransportFactoryTestCase extends TestCase
      */
     abstract public static function unsupportedSchemeProvider(): iterable;
 
+    /**
+     * @dataProvider supportsProvider
+     */
     #[DataProvider('supportsProvider')]
     public function testSupports(Dsn $dsn, bool $supports)
     {
@@ -48,6 +51,9 @@ abstract class AbstractTransportFactoryTestCase extends TestCase
         $this->assertSame($supports, $factory->supports($dsn));
     }
 
+    /**
+     * @dataProvider createProvider
+     */
     #[DataProvider('createProvider')]
     public function testCreate(Dsn $dsn, TransportInterface $transport)
     {
@@ -59,6 +65,9 @@ abstract class AbstractTransportFactoryTestCase extends TestCase
         }
     }
 
+    /**
+     * @dataProvider unsupportedSchemeProvider
+     */
     #[DataProvider('unsupportedSchemeProvider')]
     public function testUnsupportedSchemeException(Dsn $dsn, ?string $message = null)
     {
