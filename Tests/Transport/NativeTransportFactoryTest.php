@@ -32,14 +32,14 @@ final class NativeTransportFactoryTest extends TestCase
         $current = static::class;
 
         $eval = <<<EOT
-namespace $namespace;
+            namespace $namespace;
 
-function ini_get(\$key)
-{
-    \$vals = \\$current::\$fakeConfiguration;
-    return \$vals[\$key] ?? '';
-}
-EOT;
+            function ini_get(\$key)
+            {
+                \$vals = \\$current::\$fakeConfiguration;
+                return \$vals[\$key] ?? '';
+            }
+            EOT;
         eval($eval);
     }
 
