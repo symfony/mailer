@@ -86,7 +86,7 @@ class RoundRobinTransport implements TransportInterface
             }
 
             if ((microtime(true) - $this->deadTransports[$transport]) > $this->retryPeriod) {
-                $this->deadTransports->detach($transport);
+                unset($this->deadTransports[$transport]);
 
                 break;
             }
@@ -103,7 +103,7 @@ class RoundRobinTransport implements TransportInterface
 
     protected function isTransportDead(TransportInterface $transport): bool
     {
-        return $this->deadTransports->contains($transport);
+        return $this->deadTransports->offsetExists($transport);
     }
 
     protected function getInitialCursor(): int
