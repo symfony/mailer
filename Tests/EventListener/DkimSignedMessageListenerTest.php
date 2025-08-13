@@ -44,7 +44,10 @@ class DkimSignedMessageListenerTest extends TestCase
             /yRW4PGoZpRVRiT3SB0CQCkSOXB6YoLDagS3X10RInlGkB5pfBd1cG1pQS7YEFjX
             Y4x0EYVpNU9oHyeMlLgyevy07udFZXvHItT6WgbspQQ=
             -----END RSA PRIVATE KEY-----
-            KEY, 'symfony.com', 's1');
+            KEY,
+            'symfony.com',
+            's1'
+        );
         $listener = new DkimSignedMessageListener($signer);
         $message = new Message(
             new Headers(
