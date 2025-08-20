@@ -31,7 +31,8 @@
         "symfony/twig-bridge": "^7.4|^8.0"
     },
     "conflict": {
-        "symfony/http-client-contracts": "<2.5"
+        "symfony/http-client-contracts": "<2.5",
+        "symfony/polyfill-php83": "<1.30"
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\Mailer\\": "" },
