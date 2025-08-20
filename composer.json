@@ -35,6 +35,7 @@
         "symfony/http-kernel": "<6.4",
         "symfony/messenger": "<6.4",
         "symfony/mime": "<6.4",
+        "symfony/polyfill-php83": "<1.30",
         "symfony/twig-bridge": "<6.4"
     },
     "autoload": {
