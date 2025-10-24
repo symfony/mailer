@@ -154,7 +154,7 @@ class SmtpTransport extends AbstractTransport
 
     protected function parseMessageId(string $mtaResult): string
     {
-        return preg_match('/^250 (?:\S+ )?Ok:?+ (?-i:queued as |id=)?+(?P<id>[A-Z0-9._-]++)[\r\n]/i', $mtaResult, $matches) ? $matches['id'] : '';
+        return preg_match('/^250 (?:\S+ )?Ok:?+ (?:queued as |id=)?+(?P<id>[A-Z0-9._-]++)/im', $mtaResult, $matches) ? $matches['id'] : '';
     }
 
     public function __toString(): string
