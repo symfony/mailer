@@ -31,7 +31,7 @@ class SmimeEncryptedMessageListenerTest extends TestCase
      */
     public function testSmimeMessageEncryptionProcess()
     {
-        $repository = $this->createMock(SmimeCertificateRepositoryInterface::class);
+        $repository = $this->createStub(SmimeCertificateRepositoryInterface::class);
         $repository->method('findCertificatePathFor')->willReturn(\dirname(__DIR__).'/Fixtures/sign.crt');
         $listener = new SmimeEncryptedMessageListener($repository);
         $message = new Message(
@@ -56,7 +56,7 @@ class SmimeEncryptedMessageListenerTest extends TestCase
      */
     public function testMessageNotEncryptedWhenOneRecipientCertificateIsMissing()
     {
-        $repository = $this->createMock(SmimeCertificateRepositoryInterface::class);
+        $repository = $this->createStub(SmimeCertificateRepositoryInterface::class);
         $repository->method('findCertificatePathFor')->willReturnOnConsecutiveCalls(\dirname(__DIR__).'/Fixtures/sign.crt', null);
         $listener = new SmimeEncryptedMessageListener($repository);
         $message = new Message(
@@ -83,7 +83,7 @@ class SmimeEncryptedMessageListenerTest extends TestCase
      */
     public function testMessageNotExplicitlyAskedForNonEncryption()
     {
-        $repository = $this->createMock(SmimeCertificateRepositoryInterface::class);
+        $repository = $this->createStub(SmimeCertificateRepositoryInterface::class);
         $repository->method('findCertificatePathFor')->willReturn(\dirname(__DIR__).'/Fixtures/sign.crt');
         $listener = new SmimeEncryptedMessageListener($repository);
         $message = new Message(

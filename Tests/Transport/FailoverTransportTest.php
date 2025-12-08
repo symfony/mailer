@@ -84,9 +84,9 @@ class FailoverTransportTest extends TestCase
 
     public function testSendOneDeadAndRecoveryWithinRetryPeriod()
     {
-        $t1 = $this->createMock(TransportInterface::class);
+        $t1 = $this->createStub(TransportInterface::class);
 
-        $t1->expects($this->any())
+        $t1
             ->method('send')
             ->willReturnCallback(function () {
                 static $call = 0;
@@ -157,8 +157,8 @@ class FailoverTransportTest extends TestCase
 
     public function testSendOneDeadButRecover()
     {
-        $t1 = $this->createMock(TransportInterface::class);
-        $t1->expects($this->any())->method('send')->willReturnCallback(function () {
+        $t1 = $this->createStub(TransportInterface::class);
+        $t1->method('send')->willReturnCallback(function () {
             static $call = 0;
 
             if (1 === ++$call) {
