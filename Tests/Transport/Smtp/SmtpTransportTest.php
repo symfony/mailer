@@ -142,8 +142,8 @@ class SmtpTransportTest extends TestCase
     public function testMessageIdFromServerIsEmbeddedInSentMessageEvent()
     {
         $calls = 0;
-        $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $eventDispatcher->expects($this->any())
+        $eventDispatcher = $this->createStub(EventDispatcherInterface::class);
+        $eventDispatcher
             ->method('dispatch')
             ->with($this->callback(static function ($event) use (&$calls): bool {
                 ++$calls;
