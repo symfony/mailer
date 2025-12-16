@@ -87,7 +87,7 @@ class FailoverTransportTest extends TestCase
 
         $t1->expects($this->any())
             ->method('send')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(static function () {
                 static $call = 0;
 
                 if (1 === ++$call) {
@@ -100,7 +100,7 @@ class FailoverTransportTest extends TestCase
         $t2 = $this->createMock(TransportInterface::class);
         $t2->expects($this->exactly(4))
             ->method('send')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(static function () {
                 static $call = 0;
 
                 if (4 === ++$call) {
@@ -135,7 +135,7 @@ class FailoverTransportTest extends TestCase
         $t2 = $this->createMock(TransportInterface::class);
         $t2->expects($this->exactly(3))
             ->method('send')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(static function () {
                 static $call = 0;
 
                 if (3 === ++$call) {
@@ -157,7 +157,7 @@ class FailoverTransportTest extends TestCase
     public function testSendOneDeadButRecover()
     {
         $t1 = $this->createMock(TransportInterface::class);
-        $t1->expects($this->any())->method('send')->willReturnCallback(function () {
+        $t1->expects($this->any())->method('send')->willReturnCallback(static function () {
             static $call = 0;
 
             if (1 === ++$call) {
@@ -170,7 +170,7 @@ class FailoverTransportTest extends TestCase
         $t2 = $this->createMock(TransportInterface::class);
         $t2->expects($this->exactly(3))
             ->method('send')
-            ->willReturnCallback(function () {
+            ->willReturnCallback(static function () {
                 static $call = 0;
 
                 if (3 === ++$call) {
