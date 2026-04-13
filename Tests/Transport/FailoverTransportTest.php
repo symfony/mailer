@@ -89,7 +89,7 @@ class FailoverTransportTest extends TestCase
         $t1Matcher = $this->any();
         $t1->expects($t1Matcher)
             ->method('send')
-            ->willReturnCallback(function () use ($t1Matcher) {
+            ->willReturnCallback(static function () use ($t1Matcher) {
                 if (1 === $t1Matcher->getInvocationCount()) {
                     throw new TransportException();
                 }
@@ -101,7 +101,7 @@ class FailoverTransportTest extends TestCase
         $t2Matcher = $this->exactly(4);
         $t2->expects($t2Matcher)
             ->method('send')
-            ->willReturnCallback(function () use ($t2Matcher) {
+            ->willReturnCallback(static function () use ($t2Matcher) {
                 if (4 === $t2Matcher->getInvocationCount()) {
                     throw new TransportException();
                 }
@@ -135,7 +135,7 @@ class FailoverTransportTest extends TestCase
         $matcher = $this->exactly(3);
         $t2->expects($matcher)
             ->method('send')
-            ->willReturnCallback(function () use ($matcher) {
+            ->willReturnCallback(static function () use ($matcher) {
                 if (3 === $matcher->getInvocationCount()) {
                     throw new TransportException();
                 }
@@ -156,7 +156,7 @@ class FailoverTransportTest extends TestCase
     {
         $t1Matcher = $this->any();
         $t1 = $this->createMock(TransportInterface::class);
-        $t1->expects($t1Matcher)->method('send')->willReturnCallback(function () use ($t1Matcher) {
+        $t1->expects($t1Matcher)->method('send')->willReturnCallback(static function () use ($t1Matcher) {
             if (1 === $t1Matcher->getInvocationCount()) {
                 throw new TransportException();
             }
@@ -168,7 +168,7 @@ class FailoverTransportTest extends TestCase
         $matcher = $this->exactly(3);
         $t2->expects($matcher)
             ->method('send')
-            ->willReturnCallback(function () use ($matcher) {
+            ->willReturnCallback(static function () use ($matcher) {
                 if (3 === $matcher->getInvocationCount()) {
                     throw new TransportException();
                 }
