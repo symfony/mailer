@@ -125,5 +125,3 @@ class RoundRobinTransport implements TransportInterface
         return ++$cursor >= \count($this->transports) ? 0 : $cursor;
     }
 }
-
-// @php-cs-fixer-ignore random_api_migration
